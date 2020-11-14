@@ -1,0 +1,14 @@
+---
+- hosts: targethost1
+  tasks:
+    - name: Install the latest version of libpam-pwquality
+      become: true  
+      yum:
+        name: libpam-pwquality
+        state: latest
+    - name: Ensure the reject_username and enforce_for_root is set
+      become: true
+      lineinfile:
+        path: /etc/pam.d/common-password
+        regexp: 'pam_pwquality.so'
+        line: password        requisite    pam_pwquality.so reject_username enforce_for_root  
